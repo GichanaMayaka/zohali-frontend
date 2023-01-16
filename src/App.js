@@ -1,86 +1,87 @@
-import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import styles from "./App.module.css";
+import { List } from "./List";
+import { resultsReducer } from "./Reducers";
+import { SearchForm } from "./SearchForm";
 
-const API_ENDPOINT = "http://127.0.0.1:8000/all";
+const API_ENDPOINT = new URL("http://127.0.0.1:8000/all");
 
-const Item = ({ response }) => {
-  return (
-    response.map((res, index) => {
-      return (
-        <div key={index} style={{ margin: "20px" }}>
-          <span><strong>{res.region}</strong></span>
-          <span>{res.county}</span>
-          <span>{
-            res.area.map((a, i) => <span key={i}>{a}</span>)
-          }</span>
-          <span>{res.place}</span>
-          <span>{res.time}</span>
-          <span>{res.date}</span>
-        </div>
-      );
-    }));
-};
-
-function InputWithLabelAndButton({ id, inputType, buttonType, onUserInput, onInputChange, value, children }) {
-  return (
-    <>
-      <div>
-        <label htmlFor={id}>{children}</label>
-        <input type={inputType} id={id} onChange={onInputChange} value={value}/>
-        <button type={buttonType} onClick={onUserInput} disabled={!value}>Search</button>
-      </div>
-    </>
-  );
-}
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState([]);
-  const [isFetched, setIsFetched] = useState(false);
-
-  const link = new URL(API_ENDPOINT);
-  const [url, setUrl] = useState(link);
+  const [url, setUrl] = useState(API_ENDPOINT);
+  const [count, setCount] = useState(10);
+  const [placesSearchTerm, setPlacesSearchTerm] = useState("");
+  const [areasSearchTerm, setAreasSearchTerm] = useState("");
+  const [resultsData, dispatcher] = useReducer(resultsReducer, {
+    data: [],
+    isError: false,
+    isFetched: false,
+    isLoading: false,
+  });
 
   const handleFetchData = useCallback(async () => {
     try {
+      dispatcher({ type: "DATA_FETCH_INIT" });
+
       const response = await axios.get(url.href);
-      setData(response.data);
-      setIsFetched(true);
+
+      dispatcher({
+        type: "DATA_FETCH_SUCCESS",
+        payload: response.data.response,
+      });
     } catch (error) {
-      setIsFetched(false);
+      dispatcher({ type: "DATA_FETCH_FAILURE" });
     }
   }, [url.href]);
 
-  const handleSearchPlaces = (event) => {
+  const handleSearch = (event) => {
     event.preventDefault();
-    let tempLink = new URL(url);
-    tempLink.searchParams.set("place", searchTerm);
+
+    const tempLink = new URL(url);
+
+    if (count) {
+      tempLink.searchParams.set("count", count.toString());
+    }
+    if (placesSearchTerm) {
+      tempLink.searchParams.set("place", placesSearchTerm);
+    }
+    if (areasSearchTerm) {
+      tempLink.searchParams.set("area", areasSearchTerm);
+    }
+    console.log(tempLink.href);
     setUrl(tempLink);
   };
 
-  const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+  const handlePlacesInputChange = (event) => {
+    setPlacesSearchTerm(event.target.value);
+  };
+
+  const handleAreaInputChange = (event) => {
+    setAreasSearchTerm(event.target.value);
+  };
+
+  const handleCountInputChange = (event) => {
+    setCount(event.target.value);
   };
 
   useEffect(() => {
     handleFetchData();
-  }, [url, handleFetchData]);
+  }, [url.href, handleFetchData]);
 
   return (
     <div className={styles.container}>
       <h2>Zohali</h2>
-      <InputWithLabelAndButton id="search" inputType="text" buttonType="button"
-                               onUserInput={handleSearchPlaces}
-                               onInputChange={handleInputChange} value={searchTerm}>Search</InputWithLabelAndButton>
-      {searchTerm ? (
-        <p>
-          Searching for <strong>{searchTerm}</strong>
-        </p>
-      ) : null}
-      {
-        isFetched ? <Item response={data.response}/> : <p>No data fetched!</p>
-      }
+      {/*TODO: Fix bug where link search params persist over multiple fetches*/}
+      <SearchForm count={count}
+                  resultsData={resultsData}
+                  handleCountInputChange={handleCountInputChange}
+                  handleAreaInputChange={handleAreaInputChange}
+                  handlePlacesInputChange={handlePlacesInputChange}
+                  handleSearch={handleSearch}
+                  placesSearchTerm={placesSearchTerm}
+                  areasSearchTerm={areasSearchTerm}
+      />
     </div>
   );
 }

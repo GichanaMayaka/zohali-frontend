@@ -1,3 +1,5 @@
 .container {
   text-align: center;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-weight: 300;
 }
