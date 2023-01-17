@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import styles from "./App.module.css";
-import { List } from "./List";
 import { resultsReducer } from "./Reducers";
 import { SearchForm } from "./SearchForm";
 
@@ -13,6 +12,7 @@ function App() {
   const [count, setCount] = useState(10);
   const [placesSearchTerm, setPlacesSearchTerm] = useState("");
   const [areasSearchTerm, setAreasSearchTerm] = useState("");
+  const [regionsSearchTerm, setRegionsSearchTerm] = useState("");
   const [resultsData, dispatcher] = useReducer(resultsReducer, {
     data: [],
     isError: false,
@@ -49,7 +49,9 @@ function App() {
     if (areasSearchTerm) {
       tempLink.searchParams.set("area", areasSearchTerm);
     }
-    console.log(tempLink.href);
+    if (regionsSearchTerm) {
+      tempLink.searchParams.set("region", regionsSearchTerm);
+    }
     setUrl(tempLink);
   };
 
@@ -65,22 +67,42 @@ function App() {
     setCount(event.target.value);
   };
 
+  const handleRegionInputChange = (event) => {
+    setRegionsSearchTerm(event.target.value);
+    console.log(regionsSearchTerm);
+  };
+
+  const resetLink = () => {
+    setRegionsSearchTerm("");
+    setAreasSearchTerm("");
+    setPlacesSearchTerm("");
+    setUrl(API_ENDPOINT);
+  };
+
   useEffect(() => {
     handleFetchData();
-  }, [url.href, handleFetchData]);
+  }, [handleFetchData]);
 
   return (
     <div className={styles.container}>
-      <h2>Zohali</h2>
+      <h2>
+        <a href="https://github.com/GichanaMayaka/zohali" target="#_blank">Zohali</a>
+      </h2>
       {/*TODO: Fix bug where link search params persist over multiple fetches*/}
+      {/*TODO: Fix bug where large data dump crashes list/item component*/}
       <SearchForm count={count}
                   resultsData={resultsData}
+                  region={regionsSearchTerm}
+                  handleRegionInputChange={handleRegionInputChange}
                   handleCountInputChange={handleCountInputChange}
                   handleAreaInputChange={handleAreaInputChange}
                   handlePlacesInputChange={handlePlacesInputChange}
                   handleSearch={handleSearch}
                   placesSearchTerm={placesSearchTerm}
                   areasSearchTerm={areasSearchTerm}
+                  resetLink={resetLink}
+                  // TODO: Hide full path
+                  url={url.href}
       />
     </div>
   );

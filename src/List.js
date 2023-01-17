@@ -5,7 +5,7 @@ export const List = ({ response }) => {
     response.map((res, index) => {
       return (
         <div key={index - 1}>
-          <Item response={res} key={index + 1} />
+          <Item response={res} key={index + 1}/>
         </div>
       );
     })

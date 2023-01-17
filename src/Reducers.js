@@ -26,3 +26,9 @@ export const resultsReducer = (state, action) => {
       throw new Error();
   }
 };
+
+export const statusReducer = (state, action) => {
+  switch (action.type) {
+    // case
+  }
+}

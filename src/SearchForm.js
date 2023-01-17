@@ -2,10 +2,32 @@ import React from "react";
 import { InputWithLabel } from "./Input";
 import { List } from "./List";
 
-export const SearchForm = ({ count, resultsData, handleSearch, handleAreaInputChange, areasSearchTerm, handlePlacesInputChange, placesSearchTerm, handleCountInputChange }) => {
+export const SearchForm = ({
+                             count,
+                             resultsData,
+                             region,
+                             handleSearch,
+                             handleAreaInputChange,
+                             areasSearchTerm,
+                             handlePlacesInputChange,
+                             placesSearchTerm,
+                             handleCountInputChange,
+                             handleRegionInputChange,
+                             resetLink,
+                             url,
+                           }) => {
   return (
     <form onSubmit={handleSearch}>
       <div>
+        &nbsp;
+        <InputWithLabel
+          id="region-search"
+          inputType="text"
+          onInputChange={handleRegionInputChange}
+          value={region}
+          placeholder="Search in Regions"
+        />
+        &nbsp;
         <InputWithLabel
           id="area-search"
           inputType="text"
@@ -22,6 +44,7 @@ export const SearchForm = ({ count, resultsData, handleSearch, handleAreaInputCh
           placeholder="Search in Places"
         />
         &nbsp;
+        {/*TODO: Disable after 100 input value limit*/}
         <InputWithLabel
           id="count"
           inputType="number"
@@ -29,9 +52,11 @@ export const SearchForm = ({ count, resultsData, handleSearch, handleAreaInputCh
           value={count}
           placeholder="Set Count"
         />
-        &nbsp;
         {/*disabled={!(placesSearchTerm && areasSearchTerm)}*/}
+        <br/>
         <button type="submit">Search</button>
+        <button type="button" onClick={resetLink}>Reset</button>
+        <p style={{ fontWeight: "bold"}}>{url}</p>
         {
           placesSearchTerm ? (
             <p>
