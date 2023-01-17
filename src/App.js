@@ -91,18 +91,18 @@ function App() {
       {/*TODO: Fix bug where link search params persist over multiple fetches*/}
       {/*TODO: Fix bug where large data dump crashes list/item component*/}
       <SearchForm count={count}
-                  resultsData={resultsData}
-                  region={regionsSearchTerm}
-                  handleRegionInputChange={handleRegionInputChange}
-                  handleCountInputChange={handleCountInputChange}
-                  handleAreaInputChange={handleAreaInputChange}
-                  handlePlacesInputChange={handlePlacesInputChange}
-                  handleSearch={handleSearch}
-                  placesSearchTerm={placesSearchTerm}
-                  areasSearchTerm={areasSearchTerm}
-                  resetLink={resetLink}
-                  // TODO: Hide full path
-                  url={url.href}
+        resultsData={resultsData}
+        region={regionsSearchTerm}
+        handleRegionInputChange={handleRegionInputChange}
+        handleCountInputChange={handleCountInputChange}
+        handleAreaInputChange={handleAreaInputChange}
+        handlePlacesInputChange={handlePlacesInputChange}
+        handleSearch={handleSearch}
+        placesSearchTerm={placesSearchTerm}
+        areasSearchTerm={areasSearchTerm}
+        resetLink={resetLink}
+        // TODO: Hide full path
+        url={url.href}
       />
     </div>
   );

@@ -3,19 +3,19 @@ import { InputWithLabel } from "./Input";
 import { List } from "./List";
 
 export const SearchForm = ({
-                             count,
-                             resultsData,
-                             region,
-                             handleSearch,
-                             handleAreaInputChange,
-                             areasSearchTerm,
-                             handlePlacesInputChange,
-                             placesSearchTerm,
-                             handleCountInputChange,
-                             handleRegionInputChange,
-                             resetLink,
-                             url,
-                           }) => {
+  count,
+  resultsData,
+  region,
+  handleSearch,
+  handleAreaInputChange,
+  areasSearchTerm,
+  handlePlacesInputChange,
+  placesSearchTerm,
+  handleCountInputChange,
+  handleRegionInputChange,
+  resetLink,
+  url,
+}) => {
   return (
     <form onSubmit={handleSearch}>
       <div>
@@ -53,10 +53,10 @@ export const SearchForm = ({
           placeholder="Set Count"
         />
         {/*disabled={!(placesSearchTerm && areasSearchTerm)}*/}
-        <br/>
+        <br />
         <button type="submit">Search</button>
         <button type="button" onClick={resetLink}>Reset</button>
-        <p style={{ fontWeight: "bold"}}>{url}</p>
+        <p style={{ fontWeight: "bold" }}>{url}</p>
         {
           placesSearchTerm ? (
             <p>
@@ -66,7 +66,7 @@ export const SearchForm = ({
         {
           resultsData.isError ? <p>Something went terribly wrong!</p> :
             resultsData.isLoading ? <p>Loading...</p> :
-              resultsData.isFetched ? <List response={resultsData.data} key={resultsData.response}/> :
+              resultsData.isFetched ? <List response={resultsData.data} key={resultsData.response} /> :
                 <p>No data fetched</p>
         }
       </div>
