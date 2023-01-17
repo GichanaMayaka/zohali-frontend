@@ -55,20 +55,24 @@ export const SearchForm = ({
         {/*disabled={!(placesSearchTerm && areasSearchTerm)}*/}
         <br />
         <button type="submit">Search</button>
-        <button type="button" onClick={resetLink}>Reset</button>
+        <button type="button" onClick={resetLink}>
+          Reset
+        </button>
         <p style={{ fontWeight: "bold" }}>{url}</p>
-        {
-          placesSearchTerm ? (
-            <p>
-              Searching for <strong>{placesSearchTerm}</strong>
-            </p>
-          ) : null}
-        {
-          resultsData.isError ? <p>Something went terribly wrong!</p> :
-            resultsData.isLoading ? <p>Loading...</p> :
-              resultsData.isFetched ? <List response={resultsData.data} key={resultsData.response} /> :
-                <p>No data fetched</p>
-        }
+        {placesSearchTerm ? (
+          <p>
+            Searching for <strong>{placesSearchTerm}</strong>
+          </p>
+        ) : null}
+        {resultsData.isError ? (
+          <p>Something went terribly wrong!</p>
+        ) : resultsData.isLoading ? (
+          <p>Loading...</p>
+        ) : resultsData.isFetched ? (
+          <List response={resultsData.data} key={resultsData.response} />
+        ) : (
+          <p>No data fetched</p>
+        )}
       </div>
     </form>
   );

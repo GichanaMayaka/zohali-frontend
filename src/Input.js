@@ -11,7 +11,13 @@ export function InputWithLabel({
   return (
     <>
       <label htmlFor={id}>{children}</label>
-      <input type={inputType} id={id} onChange={onInputChange} value={value} placeholder={placeholder} />
+      <input
+        type={inputType}
+        id={id}
+        onChange={onInputChange}
+        value={value}
+        placeholder={placeholder}
+      />
     </>
   );
 }

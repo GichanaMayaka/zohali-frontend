@@ -6,7 +6,6 @@ import { SearchForm } from "./SearchForm";
 
 const API_ENDPOINT = new URL("http://127.0.0.1:8000/all");
 
-
 function App() {
   const [url, setUrl] = useState(API_ENDPOINT);
   const [count, setCount] = useState(10);
@@ -86,11 +85,13 @@ function App() {
   return (
     <div className={styles.container}>
       <h2>
-        <a href="https://github.com/GichanaMayaka/zohali" target="#_blank">Zohali</a>
+        <a href="https://github.com/GichanaMayaka/zohali" target="#_blank">
+          Zohali
+        </a>
       </h2>
-      {/*TODO: Fix bug where link search params persist over multiple fetches*/}
       {/*TODO: Fix bug where large data dump crashes list/item component*/}
-      <SearchForm count={count}
+      <SearchForm
+        count={count}
         resultsData={resultsData}
         region={regionsSearchTerm}
         handleRegionInputChange={handleRegionInputChange}
