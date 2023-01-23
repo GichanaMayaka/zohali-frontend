@@ -11,12 +11,14 @@ function App() {
   const [count, setCount] = useState(10);
   const [placesSearchTerm, setPlacesSearchTerm] = useState("");
   const [areasSearchTerm, setAreasSearchTerm] = useState("");
-  const [regionsSearchTerm, setRegionsSearchTerm] = useState("");
+  const [countySearchTerm, setCountySearchTerm] = useState("");
+  const [regionSearchTerm, setRegionSearchTerm] = useState("");
   const [resultsData, dispatcher] = useReducer(resultsReducer, {
     data: [],
     isError: false,
     isFetched: false,
     isLoading: false,
+    errorCode: null,
   });
 
   const handleFetchData = useCallback(async () => {
@@ -30,7 +32,12 @@ function App() {
         payload: response.data.response,
       });
     } catch (error) {
-      dispatcher({ type: "DATA_FETCH_FAILURE" });
+      if (error.response) {
+        dispatcher({
+          errorCode: error.response.status,
+          type: "DATA_FETCH_FAILURE",
+        });
+      }
     }
   }, [url.href]);
 
@@ -48,8 +55,11 @@ function App() {
     if (areasSearchTerm) {
       tempLink.searchParams.set("area", areasSearchTerm);
     }
-    if (regionsSearchTerm) {
-      tempLink.searchParams.set("region", regionsSearchTerm);
+    if (countySearchTerm) {
+      tempLink.searchParams.set("county", countySearchTerm);
+    }
+    if (regionSearchTerm) {
+      tempLink.searchParams.set("region", regionSearchTerm);
     }
     setUrl(tempLink);
   };
@@ -67,14 +77,18 @@ function App() {
   };
 
   const handleRegionInputChange = (event) => {
-    setRegionsSearchTerm(event.target.value);
-    console.log(regionsSearchTerm);
+    setRegionSearchTerm(event.target.value);
+  };
+
+  const handleCountyInputChange = (event) => {
+    setCountySearchTerm(event.target.value);
   };
 
   const resetLink = () => {
-    setRegionsSearchTerm("");
+    setCountySearchTerm("");
     setAreasSearchTerm("");
     setPlacesSearchTerm("");
+    setRegionSearchTerm("");
     setUrl(API_ENDPOINT);
   };
 
@@ -93,11 +107,13 @@ function App() {
       <SearchForm
         count={count}
         resultsData={resultsData}
-        region={regionsSearchTerm}
-        handleRegionInputChange={handleRegionInputChange}
+        region={regionSearchTerm}
+        countySearchTerm={countySearchTerm}
+        handleCountyInputChange={handleCountyInputChange}
         handleCountInputChange={handleCountInputChange}
         handleAreaInputChange={handleAreaInputChange}
         handlePlacesInputChange={handlePlacesInputChange}
+        handleRegionInputChange={handleRegionInputChange}
         handleSearch={handleSearch}
         placesSearchTerm={placesSearchTerm}
         areasSearchTerm={areasSearchTerm}

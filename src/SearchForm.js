@@ -12,8 +12,10 @@ export const SearchForm = ({
   handlePlacesInputChange,
   placesSearchTerm,
   handleCountInputChange,
+  handleCountyInputChange,
   handleRegionInputChange,
   resetLink,
+  countySearchTerm,
   url,
 }) => {
   return (
@@ -26,6 +28,14 @@ export const SearchForm = ({
           onInputChange={handleRegionInputChange}
           value={region}
           placeholder="Search in Regions"
+        />
+        &nbsp;
+        <InputWithLabel
+          id="county-search"
+          inputType="text"
+          onInputChange={handleCountyInputChange}
+          value={countySearchTerm}
+          placeholder="Search in County"
         />
         &nbsp;
         <InputWithLabel
@@ -61,11 +71,23 @@ export const SearchForm = ({
         <p style={{ fontWeight: "bold" }}>{url}</p>
         {placesSearchTerm ? (
           <p>
-            Searching for <strong>{placesSearchTerm}</strong>
+            Searching for <strong>{placesSearchTerm}</strong> in places
+          </p>
+        ) : areasSearchTerm ? (
+          <p>
+            Searching for <strong>{areasSearchTerm}</strong> in areas
+          </p>
+        ) : region ? (
+          <p>
+            Searching for <strong>{region}</strong> in regions
+          </p>
+        ) : countySearchTerm ? (
+          <p>
+            Searching for <strong>{countySearchTerm}</strong> in counties
           </p>
         ) : null}
         {resultsData.isError ? (
-          <p>Something went terribly wrong!</p>
+          <p>Something went terribly wrong! {resultsData.errorCode}</p>
         ) : resultsData.isLoading ? (
           <p>Loading...</p>
         ) : resultsData.isFetched ? (

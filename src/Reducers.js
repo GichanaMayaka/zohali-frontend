@@ -18,6 +18,7 @@ export const resultsReducer = (state, action) => {
     case "DATA_FETCH_FAILURE":
       return {
         ...state,
+        errorCode: action.errorCode,
         isFetched: false,
         isError: true,
         isLoading: false,

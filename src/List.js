@@ -1,18 +1,20 @@
 import React from "react";
+import styles from "./App.module.css";
 
 export const List = ({ response }) => {
   return response.map((res, index) => {
     return (
-      <div key={index - 1}>
-        <Item response={res} key={index + 1} />
+      <div key={index - 1} className={styles.list}>
+        <Item response={res} key={index + 1} position={index} />
       </div>
     );
   });
 };
 
-const Item = ({ response }) => {
+const Item = ({ response, position }) => {
   return (
-    <div style={{ margin: "20px" }}>
+    <>
+      <span>{position + 1} </span>
       <span>
         <strong>{response.region}</strong>
       </span>
@@ -25,6 +27,6 @@ const Item = ({ response }) => {
       <span>{response.places}</span>
       <span>{response.time}</span>
       <span>{response.date}</span>
-    </div>
+    </>
   );
 };
