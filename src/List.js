@@ -19,11 +19,7 @@ const Item = ({ response, position }) => {
         <strong>{response.region}</strong>
       </span>
       <span>{response.county}</span>
-      <span>
-        {response.area.map((a, i) => (
-          <span key={i}>{a}</span>
-        ))}
-      </span>
+      <span>{response.area}</span>
       <span>{response.places}</span>
       <span>{response.time}</span>
       <span>{response.date}</span>

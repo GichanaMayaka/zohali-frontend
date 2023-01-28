@@ -62,7 +62,6 @@ export const SearchForm = ({
           value={count}
           placeholder="Set Count"
         />
-        {/*disabled={!(placesSearchTerm && areasSearchTerm)}*/}
         <br />
         <button type="submit">Search</button>
         <button type="button" onClick={resetLink}>
