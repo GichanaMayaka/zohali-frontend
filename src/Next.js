@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import styles from "./App.module.css";
-import { SearchForm } from "./SearchForm";
 import { resultsReducer } from "./Reducers";
+import { SearchForm } from "./SearchForm";
 
 const API_ENDPOINT = new URL("http://127.0.0.1:8000/next");
 
