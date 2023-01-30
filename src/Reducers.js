@@ -1,4 +1,4 @@
-export const resultsReducer = (state, action) => {
+export  const resultsReducer = (state, action) => {
   switch (action.type) {
     case "DATA_FETCH_INIT":
       return {
